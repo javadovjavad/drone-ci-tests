@@ -1,0 +1,21 @@
+#Drone CI
+
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: build
+  image: nginx:latest
+  commands:
+  - "ls -la"
+- name: publish
+  image: plugins/docker
+  settings:
+    username:
+      from_secrets: docker_username
+    password:
+      from_secrets: docker_password
+    repo: javadoff/k8s-httpd
+    auto_tag: true
+    auto_tag_suffix: drone-build
