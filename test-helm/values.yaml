@@ -1,0 +1,29 @@
+db:
+  name: "db"
+  labels:
+    app: "words-db"
+  containers:
+       name: "db"
+       image: "dockersamples/k8s-wordsmith-db"
+       ports: 5432
+
+
+words:
+  name: "words"
+  labels:
+    app: "words-api"
+  containers:
+       name: "words"
+       image: "dockersamples/k8s-wordsmith-api"
+       ports: 8080
+
+  
+web:
+  name: "web"
+  labels:
+    app: "words-web"
+  containers:
+       name: "web"
+       image: "dockersamples/k8s-wordsmith-web"
+       ports: 8081
+       lbport: 80

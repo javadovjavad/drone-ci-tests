@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.db.name }}
+  labels:
+    app: {{ .Values.db.labels.app }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.db.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db.labels.app }}
+    spec:
+      containers:
+      - name: {{ .Values.db.containers.name }}
+        image: {{ .Values.db.containers.image }}
+        ports:
+        - containerPort: {{ .Values.db.containers.ports }}
+          name: {{ .Values.db.name }}
+    
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.words.name }}
+  labels:
+    app: {{ .Values.words.labels.app }}
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: {{ .Values.words.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.words.labels.app }}
+    spec:
+      containers:
+      - name: {{ .Values.words.containers.name }}
+        image: {{ .Values.words.containers.image }}
+        ports:
+        - containerPort: {{ .Values.words.containers.ports }}
+          name: api
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.web.name }}
+  labels:
+    app: {{ .Values.web.labels.app }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.web.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.web.labels.app }}
+    spec:
+      containers:
+      - name: {{ .Values.web.containers.name }}
+        image: {{ .Values.web.containers.image }}
+        ports:
+        - containerPort: {{ .Values.web.containers.ports }}
+          name: words-web

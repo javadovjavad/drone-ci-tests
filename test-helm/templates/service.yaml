@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.db.name }}
+  labels:
+    app: {{ .Values.db.labels.app }}
+spec:
+  ports:
+    - port: {{ .Values.db.containers.ports }}
+      targetPort: {{ .Values.db.containers.ports }}
+      name: {{ .Values.db.name }}
+  selector:
+    app: {{ .Values.db.labels.app }}
+  clusterIP: None
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.words.name }}
+  labels:
+    app: {{ .Values.words.labels.app }}
+spec:
+  ports:
+    - port: {{ .Values.words.containers.ports }}
+      targetPort: {{ .Values.words.containers.ports }}
+      name: api
+  selector:
+    app: {{ .Values.words.labels.app }}
+  clusterIP: None
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.web.name }}
+  labels:
+    app: {{ .Values.web.labels.app }}
+spec:
+  ports:
+    - port: {{ .Values.web.containers.ports }}
+      targetPort: {{ .Values.web.containers.lbport }}
+      name: web
+  selector:
+    app: {{ .Values.web.labels.app }}
+  type: LoadBalancer
+---

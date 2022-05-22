@@ -1,0 +1,4 @@
+creation_rules:
+          - path_regex: ./*
+            kms: 'arn:aws:kms:eu-central-1:043751989667:key/b56fde7a-3734-4591-900b-14897fb275cb'
+
